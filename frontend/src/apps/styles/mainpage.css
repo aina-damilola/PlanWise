@@ -1,26 +1,33 @@
 #homepage h1{
     text-align: center;
     color: #2e2e2ed0;
-    border: solid;
-
+    /* border: solid; */
+    margin: 0;
+    font-size: 175px;
+    font-weight: 400;
 }
 #homepage h2{
     text-align: center;
     font-style: italic;
-    color: #2e2e2e7c;
-    border: solid;
+    color: #2e2e2eb4;
+    /* border: solid; */
+    margin: 0;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 2.5px;
+
 }
 
 #mainpage{
     border: solid;
     color: green;
+    display: flex;
+    flex-direction: column;
 }
 
 #homepage{
-    border: solid;
-    color: red;
     height: 100vh;
     display: flex;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: column; 
 }
