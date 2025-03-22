@@ -23,6 +23,11 @@ tools = [
                                     "type": "string",
                                     "description": "The name of the task."
                                 },
+                                "task_type": {
+                                    "type": "string",
+                                    "description": "Indicates if the task is a 'fixed_event', 'recurring_event', or an 'open_task' that has a deadline but no specific time.",
+                                    "enum": ["fixed_event", "recurring_event", "open_task"]
+                                },
                                 "frequency": {
                                     "type": "string",
                                     "description": "How often the task should be done.",
@@ -37,9 +42,15 @@ tools = [
                                     "type": "string",
                                     "format": "date",  # Specify date format
                                     "description": "The due date of the task in YYYY-MM-DD format."
+                                },
+                                "time": {
+                                    "type": "string",
+                                    "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$",
+                                    "description": "The time for the task (HH:MM format, 24-hour clock).",
+                                    "nullable": True
                                 }
                             },
-                            "required": ["name", "frequency", "times_per_day"]
+                            "required": ["name","task_type", "frequency", "times_per_day"]
                         }
                     }
                 },
@@ -67,10 +78,6 @@ try:
     # print(response.message.content)
     
    
-
-    # If the model provides a direct response (no tool calls)
-    if response.text:
-        print(f"Model Response: {response.text}")
 
 except cohere.errors.UnprocessableEntityError as e:
     print(f"Unprocessable Entity Error: {e}")
