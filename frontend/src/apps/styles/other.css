@@ -1,0 +1,55 @@
+#other{
+    /* border: solid; */
+    /* color: yellow; */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+
+#other h1{
+    font-weight: 300;
+    font-size: 40px;
+    color: #2e2e2e;
+    letter-spacing: 1px;
+    margin: 0;
+    padding: 5px;
+    border-bottom: dotted;
+    border-width: 2px;
+    border-color: #2e2e2e44;
+    width: 50;
+}
+
+#other #selectors{
+    display: flex;
+    /* border: solid; */
+    width: 75%;
+    justify-content: space-around;
+}
+
+#other #selectors button{
+    width: 5vw;
+    aspect-ratio: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #00000000;
+    /* border: solid; */
+    transition: 150ms;
+    margin: 3.5% 0 ;
+}
+
+#other #selectors button:hover{
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(92%) sepia(7%) saturate(530%) hue-rotate(215deg) brightness(71%) contrast(93%);
+    transform: scale(1.05);
+
+}
+
+#selectors #planner_selector{
+    background-image: url('../../assets/calendar.svg');
+}
+
+#selectors #finance_selector{
+    background-image: url('../../assets/bills.svg');
+}
