@@ -111,7 +111,7 @@ def image():
             content=[
                 {
                     "type": "text",
-                    "text": "Can you extract the transactions of this receipt in the image provided?"
+                    "text": "Can you extract the transactions of this receipt that I just made in the image provided?"
                 },
                 {
                     "type": "media",
