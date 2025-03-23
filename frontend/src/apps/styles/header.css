@@ -9,7 +9,7 @@
 
 #Header img{
     /* border: solid; */
-    width: 4%;
+    height: 5vh;
     margin-left: 2.5vw;
 }
 
@@ -20,7 +20,7 @@
     
     background-color: #2e2e2ecb;
     margin-left: auto;
-    width: 35%;
+    width: 15%;
     align-items: center;
     justify-content: space-around;
     border-top-left-radius: 1000px;
@@ -35,7 +35,7 @@
     height: fit-content;
     padding: 1px;
     transition: 250ms;
-    
+    letter-spacing: 1px;
 }
 
 #Links a:hover{

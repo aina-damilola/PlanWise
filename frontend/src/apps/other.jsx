@@ -17,9 +17,9 @@ function Other(){
                 <button id="planner_selector" onClick={() => selector("planner")}/>
                 <button id="finance_selector" onClick={() => selector("finance")}/>
            </div> 
-           <Planner/>
-           {/* {frame == "planner" ? <Planner/>: <></>} */}
-           {/* {frame == "finance" ? <Finance/>: <></>} */}
+           
+           {frame == "planner" ? <Planner/>: <></>} 
+           {frame == "finance" ? <Finance/>: <></>} 
         </div>
     )
 }

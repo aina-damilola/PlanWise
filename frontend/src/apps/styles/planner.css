@@ -1,20 +1,38 @@
+#planner h2{
+    color: #2e2e2e;
+    font-weight: 400;
+    
+    text-align: center;
+}
+
+#planner .inter{
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: solid;
+    border-width: 1px;
+}
+
 /* Style the calendar container */
 .fc {
-    max-width: 1000px;
+    max-width: 1500px;
     margin: auto;
-    background: white;
+    background: #2e2e2eae;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: rgb(151, 151, 151);
 }
 
 /* Customize event background and text */
 .fc-event {
-    background: #007bff !important;  /* Blue color */
-    color: white !important;
+    background: #d6cfe1 !important;  /* Blue color */
+    color: #2e2e2e9e !important;
     border-radius: 5px;
-    padding: 5px;
-    font-size: 14px;
+    
+    font-size: 10px;
+    overflow-x: hidden;
+    border: solid;
 }
 
 /* Change today's highlight */
@@ -25,19 +43,49 @@
 /* Customizing header buttons */
 .fc-toolbar-title {
     font-size: 22px;
-    font-weight: bold;
 }
 
 .fc-button {
-    background: #007bff !important;
+    background: #d6cef120 !important;
     color: white !important;
-    border: none !important;
+    border: solid !important;
     border-radius: 5px;
-    padding: 5px 10px !important;
+    padding: 2.5px 5px !important;
 }
 
 /* Change event hover effect */
 .fc-event:hover {
-    background: #0056b3 !important;
+    background: #bba9d9 !important;
     cursor: pointer;
+}
+
+#planner #actions{
+    /* border: solid; */
+    display: flex;
+    margin-top: 20px;
+    place-items: center;
+}
+
+#planner #actions input{
+    padding: 15px;
+    font-size: 15px;
+    flex: 1;
+    border: none;
+    border-radius: 20px;
+    /* color: red; */
+    margin: auto 0;
+    background-color: #2e2e2e;
+}
+
+#planner #actions button{
+    background-color: #00000000;
+    border-radius: 10px;
+    background-image: url('../../assets/send.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 30px;
+    aspect-ratio: 1;
+    padding: 0;
+    margin-left: 10px;
 }
