@@ -1,12 +1,10 @@
 import os
-
+import requests
 from flask import Flask, jsonify, request
 from agent import get_agent
 from langchain_core.messages import AIMessage, HumanMessage
 
 app = Flask(__name__)
-
-agent = get_agent()
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -15,16 +13,16 @@ def chat():
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
     
-    conversation = agent.invoke(
-        {
-            "messages": [
-                HumanMessage(content=user_message),
-            ],
-        },
-        config={"configurable": {"thread_id": "1"}}
+    response = requests.post(
+        'https://plan-974351744512.us-central1.run.app/api/chat',
+        json={"message": user_message}
     )
 
-    return {"data": conversation["messages"][-1].content}
+    if response.status_code == 200:
+        # Assuming the response contains a message or useful data
+        return jsonify({"response": response.json()})
+    else:
+        return jsonify({"error": "Failed to get a valid response from external API"}), 500
 
 @app.route('/', methods=['GET'])
 def index():

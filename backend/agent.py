@@ -27,9 +27,10 @@ def get_name(user_id: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -57,9 +58,10 @@ def get_assets(user_id: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         results = []
         cursor = conn.cursor()
@@ -96,9 +98,10 @@ def get_goals(user_id: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         results = []
         cursor = conn.cursor()
@@ -133,9 +136,10 @@ def get_transactions(user_id: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         results = []
         cursor = conn.cursor()
@@ -177,9 +181,10 @@ def get_accounts(user_id: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         results = []
         cursor = conn.cursor()
@@ -236,9 +241,10 @@ def create_user(user_id: str, name: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -266,9 +272,10 @@ def create_goal(user_id: str, description: str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -298,9 +305,10 @@ def create_account(user_id: str, account_type: str, balance: float, institution:
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -330,9 +338,10 @@ def create_asset(user_id: str, amount: float, description: str, asset_type:str):
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -363,9 +372,10 @@ def create_transaction(account_id: str, category: str, amount: float, descriptio
         import mysql.connector
 
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
+            host="35.225.72.199",
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password="i2pX[6S;-Gm&T\eu"
         )
         cursor = conn.cursor()
         # Retrieve data
