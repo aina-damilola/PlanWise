@@ -1,0 +1,87 @@
+.chat_history .sent{
+    background-color: #2e2e2e;
+    /* text-align: right; */
+    place-self: flex-end;
+    border-top-left-radius: 100vw;
+    border-bottom-left-radius: 100vw;
+    /* border: solid; */
+}
+.chat_history .received{
+    background-color: #7b7781;
+    place-self: flex-start;
+    border-top-right-radius: 100vw;
+    border-bottom-right-radius: 100vw;
+}
+
+.chat_history .chat{
+    padding: 10px 20px;
+    margin: 10px 0;
+    font-size: 12.5px;
+    font-weight: 400;
+    max-width: 55%;
+    flex-wrap: wrap;
+    color: white;
+}
+
+.chat_history{
+    text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+
+    border: solid #2e2e2e;
+    width: 50vw;
+    max-height: 70vh;
+    min-height: 40vh;
+    margin: 0 auto;
+    overflow-y: scroll;
+    border-radius: 20px;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+    display: flex;
+    flex-direction: column;
+    border-width: 5px;
+    background-color: #d6cfe18d;
+}
+
+#finance{
+    display: flex;
+    flex-direction: column;
+}
+
+#finance .form{
+    /* border: solid; */
+    display: flex;
+    margin-top: 20px;
+    place-items: center;
+    place-content: center;
+}
+
+#finance #text{
+    padding: 15px;
+    font-size: 15px;
+    flex: 1;
+    border: none;
+    border-radius: 20px;
+    /* color: red; */
+    margin: auto 0;
+    background-color: #2e2e2e;
+}
+
+#finance #image{
+    /* border: solid; */
+}
+
+#finance .form button{
+    background-color: #00000000;
+    border-radius: 10px;
+    background-image: url('../../assets/send.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 30px;
+    aspect-ratio: 1;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.char_history::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}

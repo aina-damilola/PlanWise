@@ -15,7 +15,7 @@ function Mainpage(){
         <div id="mainpage">
             <div id="homepage">
                 <h1 className="inter">PlanWise.</h1>
-                <h2 className="inter">Insert your one-liner slogan in here... </h2>
+                <h2 className="inter">The one-stop shop for everything organization </h2>
                 <button id="scroll_down" className="jump" onClick={handleScroll}/>
             </div>
             <Other/>
