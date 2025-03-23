@@ -10,8 +10,6 @@ from langchain_core.messages import AIMessage, HumanMessage
 
 import os
 
-user_id = "user_id"
-
 # Get tools
 @tool
 def get_name(user_id: str):
@@ -29,7 +27,8 @@ def get_name(user_id: str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -59,7 +58,8 @@ def get_assets(user_id: str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         results = []
         cursor = conn.cursor()
@@ -98,7 +98,8 @@ def get_goals(user_id: str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         results = []
         cursor = conn.cursor()
@@ -135,7 +136,8 @@ def get_transactions(user_id: str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         results = []
         cursor = conn.cursor()
@@ -179,7 +181,8 @@ def get_accounts(user_id: str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         results = []
         cursor = conn.cursor()
@@ -221,35 +224,36 @@ def get_current_time():
         return f"ERROR MESSAGE: {e}"
     
 # Create tools
-@tool
-def create_user(user_id: str, name: str):
-    """Asks the user for its name to register the user to the database.
+# @tool
+# def create_user(user_id: str, name: str):
+#     """Asks the user for its name to register the user to the database.
 
-    Args:
-        -user_id: the id of the calling user in strings
-        -name: the name of the calling user
+#     Args:
+#         -user_id: the id of the calling user in strings
+#         -name: the name of the calling user
 
-    Returns:
-        A message indicating whether the user has successfully been registered.
-    """
-    try:
-        import mysql.connector
+#     Returns:
+#         A message indicating whether the user has successfully been registered.
+#     """
+#     try:
+#         import mysql.connector
 
-        conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
-            user="root",
-            database="plan_wise"
-        )
-        cursor = conn.cursor()
-        # Retrieve data
-        cursor.execute("INSERT INTO users (id, name) VALUES (%s, %s)", (user_id, name))
-        conn.commit()
+#         conn = mysql.connector.connect(
+#             host=os.environ.get("DB_HOST"),
+#             user="root",
+#             database="planwise",
+#             password=os.environ.get("DB_PASSWORD")
+#         )
+#         cursor = conn.cursor()
+#         # Retrieve data
+#         cursor.execute("INSERT INTO users (id, name) VALUES (%s, %s)", (user_id, name))
+#         conn.commit()
             
-        cursor.close()
-        conn.close()
-        return f"SUCCESS MESSAGE: user {user_id} with name f{name} has successfully been registered."
-    except Exception as e:
-        return f"ERROR MESSAGE: {e}"
+#         cursor.close()
+#         conn.close()
+#         return f"SUCCESS MESSAGE: user {user_id} with name f{name} has successfully been registered."
+#     except Exception as e:
+#         return f"ERROR MESSAGE: {e}"
 
 @tool
 def create_goal(user_id: str, description: str):
@@ -268,7 +272,8 @@ def create_goal(user_id: str, description: str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -300,7 +305,8 @@ def create_account(user_id: str, account_type: str, balance: float, institution:
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -332,7 +338,8 @@ def create_asset(user_id: str, amount: float, description: str, asset_type:str):
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -365,7 +372,8 @@ def create_transaction(account_id: str, category: str, amount: float, descriptio
         conn = mysql.connector.connect(
             host=os.environ.get("DB_HOST"),
             user="root",
-            database="plan_wise"
+            database="planwise",
+            password=os.environ.get("DB_PASSWORD")
         )
         cursor = conn.cursor()
         # Retrieve data
@@ -387,13 +395,13 @@ def get_agent():
         max_retries=2,
     )
 
-    tools = [get_name, get_assets, get_goals, get_transactions, get_accounts, get_current_time, create_user, create_account, create_goal, create_asset]
+    tools = [get_name, get_assets, get_goals, get_transactions, get_accounts, get_current_time,  create_account, create_goal, create_asset]
 
     prompt = f"""
     You are a helpful assistant and financial expert who helps students with financial planning and portfolio management.
     You will provide financial advice because you know that your users will act at their own risk.
+    You will always double check with the user before making any decisions.
     You may not need to use tools for every query - the user may just want to chat!"
-    You are currently serving user with id {user_id}.
     """
 
     memory = MemorySaver()
