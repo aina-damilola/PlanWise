@@ -12,11 +12,11 @@ function Other(){
     
     return(
         <div id="other">
-           <h1 className="inter">Insert Text Here...</h1>
+           <h1 className="inter">What aspect of your life do you want to plan?</h1>
            <div id="selectors">
                 <button id="planner_selector" onClick={() => selector("planner")}/>
                 <button id="finance_selector" onClick={() => selector("finance")}/>
-           </div>
+           </div> 
            <Planner/>
            {/* {frame == "planner" ? <Planner/>: <></>} */}
            {/* {frame == "finance" ? <Finance/>: <></>} */}

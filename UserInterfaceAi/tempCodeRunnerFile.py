@@ -1,63 +1,60 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import cohere
+import json
+import os
 
-# Correct ClientV2 import
-co = cohere.ClientV2(api_key="WwNgPjpfa2Btwiv0pKw7jJzXTGLoAKbgLnaVs04l")
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)  # Allow all origins & credentials
 
-# Define tool as per Cohere's specs
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "create_tasks",
-            "description": "Create a list of tasks with their frequencies.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "tasks": {
-                        "type": "array",
-                        "description": "A list of tasks to create.",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "type": "string",
-                                    "description": "The name of the task."
-                                },
-                                "frequency": {
-                                    "type": "string",
-                                    "description": "How often the task should be done.",
-                                    "enum": ["daily", "weekly", "monthly", "multiple times a day"]
-                                },
-                                "times_per_day": {
-                                    "type": ["integer", "null"],
-                                    "description": "Required if frequency is 'multiple times a day', otherwise null."
-                                }
-                            },
-                            "required": ["name", "frequency", "times_per_day"]
-                        }
-                    }
-                },
-                "required": ["tasks"]
-            }
-        }
-    }
-]
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
 
+
+def generate(user_message):
 # Cohere Chat API call with ClientV2
-response = co.chat(
-    model="command-r-plus",  # or latest supported model with tool use
-    messages=[
-        {"role": "user", "content": "Create tasks for my personal productivity system."}
-    ],
-    tools=tools,
-    strict_tools=True
-)
+    try:
+      
+        response = co.chat(
+            model="command-r-plus",  # Use "command" or "command-nightly" if "command-r-plus" is not available
+            messages=[
+                {"role": "system", "content": "Always process the user's request using the 'create_tasks' tool and generate a JSON output."},
+                {"role": "system", "content": "If user suggests something with a fixed day schedule it for that day in the json, if open ended feel free to give multipe days to prep"},
+                {"role": "user", "content": user_message}
+            ],
+            tools=tools,
+            temperature=0.4,  # Lower temperature for more deterministic output
+        )
+        results = response.message.tool_calls[0].function.arguments
+        results = json.dumps(map_tasks_to_calendar(results), indent=4)
+        # print(response.message)
+        # print(response.message.content)
+        return results
+        
 
-# Proper tool call handling with ClientV2
-if response.message.tool_calls:
-    for tool_call in response.message.tool_calls:
-        print("Tool Call Detected:")
-        print(f"  Tool Name: {tool_call['name']}")
-        print(f"  Arguments: {tool_call['parameters']}")
-else:
-    print("No tool calls were suggested by the model.")
+    except cohere.errors.UnprocessableEntityError as e:
+        print(f"Unprocessable Entity Error: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+
+@app.route("/generate", methods=["POST"])
+def generate_endpoint():
+    data = request.json  # Receive data from the frontend
+    user_message = data.get("text")  # Extract user input text
+
+    results = generate(user_message)
+
+    return jsonify({"response": results})
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000, debug=True)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000, debug=True)

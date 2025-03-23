@@ -10,12 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@fullcalendar/rrule": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
     "cohere-ai": "^7.16.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "rrule": "^2.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

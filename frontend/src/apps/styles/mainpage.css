@@ -12,6 +12,7 @@
     color: #2e2e2eb4;
     /* border: solid; */
     margin: 0;
+    margin-bottom: 7.5%;
     font-size: 20px;
     font-weight: 300;
     letter-spacing: 2.5px;
@@ -19,7 +20,7 @@
 }
 
 #mainpage{
-    border: solid;
+    /* border: solid; */
     color: green;
     display: flex;
     flex-direction: column;
@@ -30,4 +31,24 @@
     display: flex;
     justify-content: center;
     flex-direction: column; 
+    
+}
+
+#scroll_down{
+    margin: 0 auto;
+    width: 2.5vw;
+    aspect-ratio: 0.9/1.15;
+    background-image: url('../../assets/scroll_down.svg');
+    background-color: #00000000;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* border: solid; */
+    animation: jump 2s ease-in-out infinite; /* Loops forever */
+}
+
+@keyframes jump {
+    0% { transform: translateY(0); }  
+    50% { transform: translateY(-20px); } 
+    100% { transform: translateY(0); } 
 }

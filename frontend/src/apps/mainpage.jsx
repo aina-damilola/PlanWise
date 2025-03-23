@@ -6,7 +6,8 @@ function Mainpage(){
         <div id="mainpage">
             <div id="homepage">
                 <h1 className="inter">PlanWise.</h1>
-                <h2 className="inter">AI powered tool built for the student by the students</h2>
+                <h2 className="inter">Insert your one-liner slogan in here... </h2>
+                <button id="scroll_down" className="jump"/>
             </div>
             <Other/>
         </div>

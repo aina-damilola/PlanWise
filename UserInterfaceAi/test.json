@@ -1,0 +1,17 @@
+{
+    "tasks": [
+        {
+            "date": "2023-10-06",
+            "frequency": "one time",
+            "name": "Study for exam",
+            "start_date": "2023-10-06",
+            "task_type": "fixed_event"
+        },
+        {
+            "frequency": "daily",
+            "name": "Go to the gym",
+            "task_type": "recurring_event",
+            "times_per_day": 1
+        }
+    ]
+}

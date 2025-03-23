@@ -1,64 +1,43 @@
-.calendar {
-    max-width: 500px;
+/* Style the calendar container */
+.fc {
+    max-width: 1000px;
     margin: auto;
-    padding: 20px;
     background: white;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-}
-
-.days-header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    font-weight: bold;
-    padding-bottom: 10px;
-}
-
-.day-name {
-    padding: 5px;
-}
-
-.days-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.day {
-    padding: 10px;
-    background: #f9f9f9;
+/* Customize event background and text */
+.fc-event {
+    background: #007bff !important;  /* Blue color */
+    color: white !important;
     border-radius: 5px;
-    min-height: 50px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+/* Change today's highlight */
+.fc-day-today {
+    background: rgba(0, 123, 255, 0.2) !important;
+}
+
+/* Customizing header buttons */
+.fc-toolbar-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.fc-button {
+    background: #007bff !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 5px;
+    padding: 5px 10px !important;
+}
+
+/* Change event hover effect */
+.fc-event:hover {
+    background: #0056b3 !important;
     cursor: pointer;
-    position: relative;
-}
-
-.today {
-    background: #007bff;
-    color: white;
-}
-
-.day:hover {
-    background: #e3e3e3;
-}
-
-.events {
-    list-style: none;
-    padding: 0;
-    margin-top: 5px;
-}
-
-.events li {
-    font-size: 0.8rem;
-    background: #007bff;
-    color: white;
-    padding: 3px;
-    border-radius: 3px;
-    margin-top: 2px;
 }

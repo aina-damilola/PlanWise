@@ -30,7 +30,7 @@
 #Links a{
     color: #d6cfe1;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
     /* border: solid; */
     height: fit-content;
     padding: 1px;
@@ -40,7 +40,7 @@
 
 #Links a:hover{
     cursor: pointer;
-    border-bottom: solid;
-    border-width: 1px;
+    /* border-bottom: solid;
+    border-width: 1px; */
     transform: scale(1.1)
 }

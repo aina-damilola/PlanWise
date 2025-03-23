@@ -1,212 +1,83 @@
-import "./styles/planner.css"
-import { useState, useEffect } from "react";
-//I have APS 100 and ECE 300 and want to study efficiently for those courses, I also want to not forget about my exam on friday at 6:30pm - 8pm.
-//Give me an empty schedule
-//WwNgPjpfa2Btwiv0pKw7jJzXTGLoAKbgLnaVs04l
+import "./styles/planner.css";
+import React, { useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import rrulePlugin from "@fullcalendar/rrule"; // Import recurrence support
+
 function Planner() {
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const [events, setEvents] = useState([]);
 
-    const [events, setEvents] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
+    // Load predefined tasks on mount
     useEffect(() => {
-        async function fetchCohereSchedule() {
-            const API_KEY = "WwNgPjpfa2Btwiv0pKw7jJzXTGLoAKbgLnaVs04l";  // Replace this
-            const API_URL = "https://api.cohere.ai/v1/generate";
-
-            const requestData = {
-                model: "command",
-                prompt: 'I have an APS 100 exam on Wednesday at 4pm to 6pm and an ECE 300 exam from Friday at 7pm to 9pm. I want to study for these courses prior to the exam. I also want to have a gym session every morning each day. Generate a JSON object representing a weekly schedule. Format it as follows: {"schedule": [{"day": "Sunday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]},{"day": "Monday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]},{"day": "Tuesday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]},{"day": "Wednesday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]},{"day": "Thursday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]},{"day": "Friday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]},{"day": "Saturday","events": [{"name": "Event Name","time": "HH:MM AM/PM - HH:MM AM/PM"}]}]}. Do not include any additional text before or after.',
-                max_tokens: 1000,
-                temperature: 0.5
-            };
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${API_KEY}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestData)
-                });
-
-                const data = await response.json();
-                
-                const rawText = data.generations[0].text;
-                console.log(rawText)
-                try {
-                    const jsonStart = rawText.indexOf("{");
-                    const jsonEnd = rawText.lastIndexOf("}") + 1;
-                    let validJson = rawText.slice(jsonStart, jsonEnd);
-                    const parsedSchedule = JSON.parse(validJson);
-                    setEvents(parsedSchedule);
-                    console.log(parsedSchedule); 
-                } catch (error) {
-                    console.error("Invalid JSON:", error.message);
-                }
-            
-                setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch schedule from Cohere");
-                setLoading(false);
-            }
-        }
-
-        fetchCohereSchedule();
+        const taskData = {
+            "tasks": [
+                { "title": "APS 100 Exam", "start": "2024-06-25T16:00:00", "end": "2024-06-26T14:00:00" },
+                { "title": "ECE 300 Study Session", "start": "2024-06-26T14:00:00" },
+                { "title": "Morning Gym", "rrule": { "freq": "yearly", "dtstart": "2024-06-20T07:00:00" } },
+                { "title": "Exam Prep", "start": "2024-06-28T10:00:00" }
+            ]
+        };
+        setEvents(taskData.tasks);
     }, []);
 
-    if (loading) return <p>Loading schedule...</p>;
-    if (error) return <p>{error}</p>;
+    // Allow users to add tasks dynamically
+    const handleDateClick = (info) => {
+        const taskName = prompt("Enter task name:");
+        if (taskName) {
+            setEvents([...events, { title: taskName, start: info.dateStr }]);
+        }
+    };
 
-   {/* const [events, setEvents] = useState({
-        "schedule": [
-            {
-                "day": "Sunday",
-                "events": [
-                    {
-                        "name": "Gym Session",
-                        "time": "07:00 AM - 08:00 AM"
-                    }
-                ]
-            },
-            {
-                "day": "Monday",
-                "events": [
-                    {
-                        "name": "Study - APS 100",
-                        "time": "08:00 AM - 09:30 AM"
-                    },
-                    {
-                        "name": "Break",
-                        "time": "09:30 AM - 10:00 AM"
-                    },
-                    {
-                        "name": "Study - ECE 300",
-                        "time": "10:00 AM - 11:30 PM"
-                    },
-                    {
-                        "name": "Break",
-                        "time": "11:30 PM - 12:00 PM"
-                    },
-                    {
-                        "name": "Gym Session",
-                        "time": "12:00 PM - 01:00 PM"
-                    }
-                ]
-            },
-            {
-                "day": "Tuesday",
-                "events": [
-                    {
-                        "name": "Study - APS 100",
-                        "time": "08:00 AM - 09:30 AM"
-                    },
-                    {
-                        "name": "Break",
-                        "time": "09:30 AM - 10:00 AM"
-                    },
-                    {
-                        "name": "Study - ECE 300",
-                        "time": "10:00 AM - 11:30 PM"
-                    },
-                    {
-                        "name": "Break",
-                        "time": "11:30 PM - 12:00 PM"
-                    },
-                    {
-                        "name": "Gym Session",
-                        "time": "12:00 PM - 01:00 PM"
-                    }
-                ]
-            },
-            {
-                "day": "Wednesday",
-                "events": [
-                    {
-                        "name": "APS 100 Exam",
-                        "time": "04:00 PM - 06:00 PM"
-                    }
-                ]
-            },
-            {
-                "day": "Thursday",
-                "events": [
-                    {
-                        "name": "Study - APS 100",
-                        "time": "08:00 AM - 09:30 AM"
-                    },
-                    {
-                        "name": "Break",
-                        "time": "09:30 AM - 10:00 AM"
-                    },
-                    {
-                        "name": "Study - ECE 300",
-                        "time": "10:00 AM - 11:30 PM"
-                    },
-                    {
-                        "name": "Break",
-                        "time": "11:30 PM - 12:00 PM"
-                    },
-                    {
-                        "name": "Gym Session",
-                        "time": "12:00 PM - 01:00 PM"
-                    }
-                ]
-            },
-            {
-                "day": "Friday",
-                "events": [
-                    {
-                        "name": "ECE 300 Exam",
-                        "time": "07:00 PM - 09:00 PM"
-                    }
-                ]
-            },
-            {
-                "day": "Saturday",
-                "events": [
-                    {
-                        "name": "Gym Session",
-                        "time": "07:00 AM - 08:00 AM"
-                    }
-                ]
-            }
-        ]
-    });
-    */}
+    // Fetch schedule from Flask and update events
+    async function fetchCohereSchedule() {
+        const userInput = "I have an aps 100 exam on march 31st, I want to study adequately everday for this exam. I also want to go to the gym weekly and sleep everyday from 11pm to 8am";
 
-    const daysOfWeek = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    
-    const scheduleObject = events.schedule.reduce((acc, entry) => {
-        acc[entry.day] = entry.events;
-        return acc;
-    }, {});
+        try {
+            const response = await fetch("http://127.0.0.1:10000/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: userInput })
+            });
+            console.log(response)
+            const data = await response.json();
+            console.log(data)
+            const newEvents = JSON.parse(data.response).tasks; // Parse received JSON
 
-    console.log(scheduleObject["Monday"])
+            console.log("Received JSON from Flask:", newEvents);
+
+            // Merge new tasks with existing events
+            setEvents((prevEvents) => [...prevEvents, ...newEvents]);
+        } catch (error) {
+            console.error("Error fetching schedule:", error);
+        }
+    }
 
     return (
-        <div className="calendar">
-            <h2>{currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
-
-            <div className="days-grid">
-                {daysOfWeek.map((day, index) => (
-                    <div key={index} className="day">
-                        <h3>{day.toUpperCase()}</h3>
-                        {scheduleObject[day] ? (
-                            <ul className="events">
-                                {scheduleObject[day].map((event, idx) => (
-                                    <li key={idx}>{event.name} - {event.time}</li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>No events</p>
-                        )}
+        <div>
+            <h2>📅 My Task Calendar</h2>
+            <button onClick={fetchCohereSchedule}>Generate Schedule</button>
+            <FullCalendar
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
+                initialView="dayGridMonth"
+                headerToolbar={{
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay"
+                }}
+                editable={true}
+                selectable={true}
+                events={events} // Load JSON & recurring events
+                eventContent={(arg) => (
+                    <div style={{ textAlign: "center" }}>
+                        <strong>{arg.event.title}</strong>
+                        <br />
+                        <small>{arg.timeText}</small>
                     </div>
-                ))}
-            </div>
-
+                )}
+                dateClick={handleDateClick} // Allow adding tasks
+            />
         </div>
     );
 }
