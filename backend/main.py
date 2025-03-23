@@ -1,4 +1,7 @@
 import os
+import base64
+
+from io import BytesIO
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from agent import get_agent
@@ -31,9 +34,8 @@ def chat():
 
     return cors_response({"data": conversation["messages"][-1].content})
 
-@app.route('/api/image_chat', methods=['POST'])
+@app.route('/api/image_chat', methods=['POST', 'OPTIONS'])
 def image_chat():
-    # Check if the request contains the required parts
     if request.method == "OPTIONS":
         return cors_response()
 
@@ -45,22 +47,29 @@ def image_chat():
     
     # Get the image and prompt from the request
     image_file = request.files['image']
-    user_message = request.form['prompt']  # Get prompt from form data, not JSON
+    prompt = request.form['prompt']
     
     try:
         # Process the image
         image = Image.open(image_file)
         
-        # Generate content using Gemini
+        # Convert PIL Image to base64
+        buffered = BytesIO()
+        image.save(buffered, format="JPEG")
+        image_bytes = buffered.getvalue()
+        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+        
+        # Create multimodal message with media type
         multimodal_message = HumanMessage(
             content=[
                 {
                     "type": "text",
-                    "text": user_message
+                    "text": prompt
                 },
                 {
-                    "type": "image",
-                    "image": image
+                    "type": "media",
+                    "mime_type": "image/jpeg",
+                    "data": image_base64
                 }
             ]
         )
@@ -78,6 +87,7 @@ def image_chat():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/', methods=['GET'])
 def index():
