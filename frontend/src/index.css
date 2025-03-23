@@ -22,7 +22,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
 	background-size: 400% 400%;
-	/* animation: gradient 7.5s ease infinite; */
+	animation: gradient 7.5s ease infinite;
   background-image: linear-gradient(62deg, #ECD289 0%, #8EC5FC 45%, #E0C3FC 95%);
   overflow-x: hidden;
 }

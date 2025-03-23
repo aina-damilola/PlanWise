@@ -42,9 +42,6 @@ def image_chat():
     if 'image' not in request.files:
         return jsonify({"error": "No image provided"}), 400
     
-    if 'prompt' not in request.form:
-        return jsonify({"error": "No prompt provided"}), 400
-    
     # Get the image and prompt from the request
     image_file = request.files['image']
     prompt = request.form['prompt']
@@ -88,6 +85,55 @@ def image_chat():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/image', methods=['POST', 'OPTIONS'])
+def image():
+    if request.method == "OPTIONS":
+        return cors_response()
+
+    if 'image' not in request.files:
+        return jsonify({"error": "No image provided"}), 400
+    
+    # Get the image and prompt from the request
+    image_file = request.files['image']
+    
+    try:
+        # Process the image
+        image = Image.open(image_file)
+        
+        # Convert PIL Image to base64
+        buffered = BytesIO()
+        image.save(buffered, format="JPEG")
+        image_bytes = buffered.getvalue()
+        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+        
+        # Create multimodal message with media type
+        multimodal_message = HumanMessage(
+            content=[
+                {
+                    "type": "text",
+                    "text": "Can you extract the transactions of this receipt in the image provided?"
+                },
+                {
+                    "type": "media",
+                    "mime_type": "image/jpeg",
+                    "data": image_base64
+                }
+            ]
+        )
+        
+        # Use your existing agent to process the multimodal input
+        conversation = agent.invoke(
+            {
+                "messages": [multimodal_message],
+            },
+            config={"configurable": {"thread_id": "1"}}
+        )
+        
+        # Return the generated text
+        return cors_response({"data": conversation["messages"][-1].content})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/', methods=['GET'])
 def index():

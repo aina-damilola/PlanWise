@@ -25,8 +25,7 @@ def map_tasks_to_calendar(input_json):
             frequency = "one time"
 
         start_time = task.get("time")  # 24-hour format (HH:MM)
-        if start_time is None:
-            start_time = "00:00:00"
+
         # Handle One-Time Events
         if frequency == "one time":
             date = task.get('date')
@@ -34,6 +33,9 @@ def map_tasks_to_calendar(input_json):
                 date = task.get('start_date')
             if date == None:
                 date = "2025-03-22"
+
+            if start_time == None:
+                start_time = "00:00:00"
 
             event = {
                 "title": title,
@@ -44,13 +46,18 @@ def map_tasks_to_calendar(input_json):
         # Handle Recurring Events
         elif frequency in ["daily", "weekly", "monthly", "yearly"]:
             date = task.get('start_date')
-            if date == None:
-                date = "2025-03-22"
+                
             rrule = {
                 "freq": frequency,
-                "dtstart": f"{date}T{start_time}"
+                
             }
             
+            if date != None and start_time != None:
+                rrule["dtstart"] = f"{date}T{start_time}"
+            elif date != None and start_time == None:
+                rrule["dtstart"] = f"{date}T00:00:00"
+
+
             # Check for additional recurrence rules
             if frequency == "weekly":
                 rrule["byweekday"] = "mo"  # Assuming Monday; update based on data
@@ -148,7 +155,7 @@ def generate(user_message):
                 {"role": "user", "content": user_message}
             ],
             tools=tools,
-            temperature=0.4,  # Lower temperature for more deterministic output
+            temperature=0.3,  # Lower temperature for more deterministic output
         )
 
         #print(response.message.tool_calls[0].function.arguments)
@@ -180,6 +187,3 @@ def generate_endpoint():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
 
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000, debug=True)

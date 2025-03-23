@@ -8,31 +8,24 @@ import rrulePlugin from "@fullcalendar/rrule"; // Import recurrence support
 
 function Planner() {
     const [events, setEvents] = useState([]);
+    const [userMessage, setUserMessage] = useState("");
 
-    // Load predefined tasks on mount
-    useEffect(() => {
-        const taskData = {
-            "tasks": [
-                { "title": "APS 100 Exam", "start": "2024-06-25T16:00:00", "end": "2024-06-26T14:00:00" },
-                { "title": "ECE 300 Study Session", "start": "2024-06-26T14:00:00" },
-                { "title": "Morning Gym", "rrule": { "freq": "yearly", "dtstart": "2024-06-20T07:00:00" } },
-                { "title": "Exam Prep", "start": "2024-06-28T10:00:00" }
-            ]
-        };
-        setEvents(taskData.tasks);
-    }, []);
+
 
     // Allow users to add tasks dynamically
     const handleDateClick = (info) => {
         const taskName = prompt("Enter task name:");
         if (taskName) {
-            setEvents([...events, { title: taskName, start: info.dateStr }]);
+            setEvents((prevEvents) => [
+                ...prevEvents,
+                { title: taskName, start: info.dateStr }
+            ]);
         }
     };
 
     // Fetch schedule from Flask and update events
     async function fetchCohereSchedule() {
-        const userInput = "I have an aps 100 exam on march 31st, I want to study adequately everday for this exam. I also want to go to the gym weekly and sleep everyday from 11pm to 8am";
+        const userInput = userMessage;
 
         try {
             const response = await fetch("http://127.0.0.1:10000/generate", {
@@ -40,9 +33,7 @@ function Planner() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ text: userInput })
             });
-            console.log(response)
             const data = await response.json();
-            console.log(data)
             const newEvents = JSON.parse(data.response).tasks; // Parse received JSON
 
             console.log("Received JSON from Flask:", newEvents);
@@ -55,9 +46,9 @@ function Planner() {
     }
 
     return (
-        <div>
-            <h2>📅 My Task Calendar</h2>
-            <button onClick={fetchCohereSchedule}>Generate Schedule</button>
+        <div id="planner">
+            <h2 className="inter">Dynamic Calendar</h2>
+
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
                 initialView="dayGridMonth"
@@ -78,6 +69,17 @@ function Planner() {
                 )}
                 dateClick={handleDateClick} // Allow adding tasks
             />
+            <div id="actions">
+                <input 
+                    type="text" 
+                    placeholder="Enter your message" 
+                    value={userMessage} 
+                    onChange={(e) => setUserMessage(e.target.value)} 
+                    className="inter"
+                />
+                <button onClick={fetchCohereSchedule}/>
+            </div>
+            
         </div>
     );
 }
