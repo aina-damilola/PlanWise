@@ -14,13 +14,24 @@ PlanWise also offers a planning tool, where the user can provide textual informa
 # How we built it
 PlanWise combines generative AI models with a React-based frontend to deliver a smart, end-to-end solution for personalized task management and financial planning. By leveraging agent-based architectures and seamless API integrations. Frontend: Built with React, providing a highly responsive and intuitive user interface.
 
-We used Cohere’s API to power the planner component, where we processed user inputs and generated structured JSON files. These JSON files serve as blueprints that our backend logic executes to create personalized and actionable plans. Gemini’s API, deployed through an agent-based architecture, is responsible for the financial planning module. The agent autonomously interacts with LangChain and Google Cloud Firestore to retrieve relevant data, perform financial analyses, and deliver tailored recommendations to users.
+We used Cohere’s API to power the planner component, where we processed user inputs and generated structured JSON files. These JSON files serve as blueprints that our backend logic executes to create personalized and actionable plans. Gemini’s API, deployed through an agent-based architecture, is responsible for the financial planning module. The agent autonomously interacts with LangChain and Google gemini to retrieve relevant data, perform financial analyses, and deliver tailored recommendations to users.
 
 # Challenges we ran into
 We ran into some issues with idea generation before the idea was finalized, and had trouble at some point integrating the frontend and backend together due to issues with CORS.
 
-#Accomplishments that we're proud of
+# Accomplishments that we're proud of
 We are proud of developing an end-to-end full stack application with robust AI functionality under the time and resource constraints presented by the hackathon.
 
-#What we learned
+# What we learned
 Some of our team members learned to develop with generative AI using APIs for the first time, and others in our team learned to use APIs to integrate frontends and backends together for the first time.
+
+# Built With
+cohere
+flask
+google-cloud-firestore
+google-gemini
+javascript
+json
+nosql
+python
+react
