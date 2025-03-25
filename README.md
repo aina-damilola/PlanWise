@@ -26,12 +26,11 @@ We are proud of developing an end-to-end full stack application with robust AI f
 Some of our team members learned to develop with generative AI using APIs for the first time, and others in our team learned to use APIs to integrate frontends and backends together for the first time.
 
 # Built With
-cohere
-flask
-google-cloud-firestore
-google-gemini
-javascript
-json
-nosql
-python
-react
+- cohere
+- flask
+- google gemini
+- javascript
+- json
+- nosql
+- python
+- react
